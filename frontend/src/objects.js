@@ -9,13 +9,13 @@ class Disk {
     this.color = 255 * (1 - this.n % 2);
   }
 
-  move(dir, speed) {
+  move(dir, speed, targetX, diskX) {
     switch (dir) {
       case 'right':
-        this.x += speed;
+        this.x += min(speed, Math.abs(targetX - diskX));
         break;
       case 'left':
-        this.x -= speed;
+        this.x -= min(speed, Math.abs(targetX - diskX));
         break;
       case 'up':
         this.y -= speed;
@@ -66,7 +66,7 @@ class Bar {
       diff += disk.height;
     });
 
-    this.freeY = 650 - this.y -  diff;
+    this.freeY = 650 - this.y - diff;
   }
 
   pushDisk(disk) {
@@ -160,6 +160,7 @@ class DiskAnimation {
 class AnimationHandler {
   constructor() {
     this.state = 'free';
+    this.isStep = false;
     this.animations = [];
   }
 
